@@ -3,8 +3,8 @@ const discordClient = new Discord.Client();
 
 const express = require('express');
 const {response} = require("express");
-const AutoRole = require("./app/BotModules/AutoRole");
-const TwitterNotification = require("./app/BotModules/TwitterNotification");
+const AutoRole = require("./src/BotModules/AutoRole");
+const TwitterNotification = require("./src/BotModules/TwitterNotification");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -61,7 +61,7 @@ discordClient.on('message', message => {
     const command = args.shift().toLowerCase();
 
     try {
-        const commandFile = require(`./commands/${command}.js`)
+        const commandFile = require(`./app/src/commands/${command}.js`)
         commandFile.run(discordClient, message, args);
     } catch (err) {
         console.error('Erro:' + err);
