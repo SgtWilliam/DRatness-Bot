@@ -1,6 +1,6 @@
 const Twit = require('twit');
 const Discord = require('discord.js');
-
+const TWITTER_DiscordChannelID = process.env.TWITTER_DiscordChannelID
 
 const TwitterNotification = {
 
