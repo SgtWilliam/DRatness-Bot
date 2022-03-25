@@ -61,7 +61,7 @@ discordClient.on('message', message => {
     const command = args.shift().toLowerCase();
 
     try {
-        const commandFile = require(`./src/commands/${command}.js`)
+        const commandFile = require(`./commands/${command}.js`)
         commandFile.run(discordClient, message, args);
     } catch (err) {
         console.error('Erro:' + err);
