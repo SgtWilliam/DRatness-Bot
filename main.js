@@ -3,7 +3,6 @@ const discordClient = new Discord.Client();
 
 const express = require('express');
 const {response} = require("express");
-const AutoRole = require("./src/BotModules/AutoRole");
 const TwitterNotification = require("./src/BotModules/TwitterNotification");
 const app = express();
 const port = process.env.PORT || 5000;
