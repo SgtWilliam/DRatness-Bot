@@ -1,6 +1,7 @@
 const Twit = require('twit');
 const Discord = require('discord.js');
 const TWITTER_DiscordChannelID = process.env.TWITTER_DiscordChannelID
+const TWITTER_USER_WATCH_ID = process.env.TWITTER_USER_WATCH_ID
 
 const TwitterNotification = {
 
@@ -17,14 +18,14 @@ const TwitterNotification = {
 
 
         //follow = id do usuario do twitter
-        let stream = TwitterLogin.stream('statuses/filter', { follow: "1479190823371694080" })
+        let stream = TwitterLogin.stream('statuses/filter', { follow: TWITTER_USER_WATCH_ID })
 
         stream.on('tweet', function (tweet) {
             //id do usuario do twitter
-            if(tweet.user.id == "1479190823371694080") {
+            if(tweet.user.id == TWITTER_USER_WATCH_ID) {
                 let url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
                 try {
-                    let channel = discordClient.channels.fetch("956298650181574716").then(channel => {
+                    let channel = discordClient.channels.fetch(TWITTER_DiscordChannelID).then(channel => {
                         channel.send(url)
                         console.log(url)
                     }).catch(err => {
