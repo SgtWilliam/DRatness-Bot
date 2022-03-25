@@ -28,11 +28,6 @@ async function main() {
             .then()
             .catch()
 
-        LiveNotification
-            .init(discordClient)
-            .then()
-            .catch()
-
         TwitterNotification
             .init(discordClient)
             .then()
