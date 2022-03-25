@@ -22,11 +22,6 @@ async function main() {
     discordClient.on('ready', async () => {
         console.info(`Logged in as ${discordClient.user.tag}!`);
 
-        AutoRole
-            .init(discordClient)
-            .then()
-            .catch()
-
         TwitterNotification
             .init(discordClient)
             .then()
