@@ -4,6 +4,8 @@ const discordClient = new Discord.Client();
 const express = require('express');
 const {response} = require("express");
 const TwitterNotification = require("./src/BotModules/TwitterNotification");
+const TiktokNotification = require("./src/BotModules/TiktokNotification")
+const AddReactions = require("./src/BotModules/AddReactions")
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -15,7 +17,7 @@ const AUTH_TOKEN = process.env.SHAMSHER_TOKEN;
 
 async function main() {
     discordClient.login(AUTH_TOKEN)
-        .then(console.log)
+        .then()
         .catch(err => console.log(err.message))
 
     discordClient.on('ready', async () => {
@@ -26,9 +28,17 @@ async function main() {
             .then()
             .catch()
 
+        TiktokNotification
+            .init(discordClient)
+            .then()
+            .catch()
+
+        AddReactions
+            .init(discordClient)
+            .then()
+            .catch()
+
     });
-
-
 }
 
 main().then()
@@ -41,6 +51,7 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 });
+
 
 
 discordClient.on('message', message => {
