@@ -77,7 +77,6 @@ discordClient.on("ready", () => {
             `Mir4 Global`,
             `Gerenciando ${discordClient.users.cache.size} pessoas`,
             `War Riders`,
-            `PVU`
         ],
         fera = 0;
     setInterval(() => discordClient.user.setActivity(`${ferinha[fera++ % ferinha.length]}`, {
