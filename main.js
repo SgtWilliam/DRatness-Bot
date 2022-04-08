@@ -67,3 +67,23 @@ discordClient.on('message', message => {
         console.error('Erro:' + err);
     }
 });
+
+
+
+
+//starts
+discordClient.on("ready", () => {
+    let ferinha = [
+            `RatnessClub-BOT`,
+            `Gerenciando ${discordClient.users.cache.size} pessoas`
+        ],
+        fera = 0;
+    setInterval(() => discordClient.user.setActivity(`${ferinha[fera++ % ferinha.length]}`, {
+        type: "WATCHING" //mais tipos: WATCHING / LISTENING
+    }), 1000 * 30);
+    discordClient.user
+        .setStatus("online")
+        .catch(console.error);
+    console.log("Estou pronto(a) para ser utilizado(a)!")
+});
+//starts
