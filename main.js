@@ -74,12 +74,14 @@ discordClient.on('message', message => {
 //starts
 discordClient.on("ready", () => {
     let ferinha = [
-            `RatnessClub-BOT`,
-            `Gerenciando ${discordClient.users.cache.size} pessoas`
+            `Mir4 Global`,
+            `Gerenciando ${discordClient.users.cache.size} pessoas`,
+            `War Riders`,
+            `PVU`
         ],
         fera = 0;
     setInterval(() => discordClient.user.setActivity(`${ferinha[fera++ % ferinha.length]}`, {
-        type: "WATCHING" //mais tipos: WATCHING / LISTENING
+        type: "PLAYING" //mais tipos: WATCHING / LISTENING
     }), 1000 * 30);
     discordClient.user
         .setStatus("online")
