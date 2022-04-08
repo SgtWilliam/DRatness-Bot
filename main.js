@@ -5,7 +5,6 @@ const express = require('express');
 const {response} = require("express");
 const TwitterNotification = require("./src/BotModules/TwitterNotification");
 const AddReactions = require("./src/BotModules/AddReactions")
-const MembersCount = require("./src/BotModules/MembersCount")
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -28,20 +27,12 @@ async function main() {
             .then()
             .catch()
 
-        TiktokNotification
-            .init(discordClient)
-            .then()
-            .catch()
 
         AddReactions
             .init(discordClient)
             .then()
             .catch()
 
-        MembersCount
-            .init(discordClient)
-            .then()
-            .catch()
     });
 }
 
