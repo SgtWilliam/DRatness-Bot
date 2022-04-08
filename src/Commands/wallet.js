@@ -31,8 +31,8 @@ module.exports.run = async (discordClient, message, args) => {
                 );
 
         await message.channel.send(GetAuthorMessageSend, CreatEmbedMessage);
-    };
 
+    };
 
 
     WarRidersGetWallet
@@ -41,3 +41,5 @@ module.exports.run = async (discordClient, message, args) => {
         .catch(reason => message.channel.send("Não encontrei esse usuario meu chapa!"))
 
 };
+
+//message.react(`<:thumbsup:958437352575991819>`)

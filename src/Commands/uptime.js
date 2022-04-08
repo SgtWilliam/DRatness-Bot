@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 
+
 module.exports.run = async (discordClient, message, args) => {
     let totalSeconds = discordClient.uptime / 1000;
     let days = Math.floor(totalSeconds / 86400);
@@ -18,4 +19,5 @@ module.exports.run = async (discordClient, message, args) => {
         .setFooter("...don't worry, be rat! 🐭")
 
     await message.channel.send(embed);
-};
+    //message.react(message.guild.emojis.cache.find(e => e.name == "picapauuuu")).catch(console.err);
+}
