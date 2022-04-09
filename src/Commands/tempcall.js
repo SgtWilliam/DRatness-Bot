@@ -34,7 +34,7 @@ module.exports.run = async (discordClient, message, args) => {
             .setAuthor('Tempo em Call', avatar)
             .setTitle('Tempo Call | ' + nick)
             .addField('Tempo Salvo', `**${tempo}**`)
-            .setFooter({ text: `ID : ${usuario.id}`})
+            .setFooter(`ID : ${usuario.id}`)
             .setColor("#521570")
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
 
