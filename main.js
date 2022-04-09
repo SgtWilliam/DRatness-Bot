@@ -5,6 +5,7 @@ const express = require('express');
 const {response} = require("express");
 const TwitterNotification = require("./src/BotModules/TwitterNotification");
 const AddReactions = require("./src/BotModules/AddReactions")
+const ServerLogs = require("./src/BotModules/voiceStateUpdate")
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -29,6 +30,11 @@ async function main() {
 
 
         AddReactions
+            .init(discordClient)
+            .then()
+            .catch()
+
+        ServerLogs
             .init(discordClient)
             .then()
             .catch()
@@ -76,7 +82,7 @@ discordClient.on("ready", () => {
     let ferinha = [
             `Mir4 Global`,
             `Gerenciando ${discordClient.users.cache.size} pessoas`,
-            `War Riders`,
+            `War Riders`
         ],
         fera = 0;
     setInterval(() => discordClient.user.setActivity(`${ferinha[fera++ % ferinha.length]}`, {
@@ -88,3 +94,5 @@ discordClient.on("ready", () => {
     console.log("Estou pronto(a) para ser utilizado(a)!")
 });
 //starts
+
+

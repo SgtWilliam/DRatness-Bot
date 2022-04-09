@@ -13,6 +13,7 @@ module.exports.run = async (client, message, args) => {
             .setColor("#005ce6")
             .setImage()
             .setTimestamp()
+            .setThumbnail(message.guild.iconURL({ dynamic: true }))
             .addFields(
                 {
                     name: "War Riders (nome e posição para scout P1)",

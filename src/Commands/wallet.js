@@ -17,6 +17,7 @@ module.exports.run = async (discordClient, message, args) => {
                 .setFooter(`👀`)
                 .setColor("#005ce6")
                 .setTimestamp()
+                .setThumbnail(message.guild.iconURL({ dynamic: true }))
                 .addFields(
                     {
                         name: "Perfil na open sea",
