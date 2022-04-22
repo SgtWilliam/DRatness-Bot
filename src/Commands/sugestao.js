@@ -1,35 +1,51 @@
-const Discord = require("discord.js");
+module.exports =  {
+    name: "sugerir",
+    description: "Faça uma sugestão.",
+    type: "CHAT_INPUT",
+    options: [
+        {
+            name: "sugestão",
+            type: "STRING",
+            description: "Escreva sua sugestão.",
+            required: true
 
+        }
 
-module.exports.run = async (discordClient, message, args) => {
+    ],
 
+    run: async (client, interaction, args) => {
 
-    const SentSuggestion = args.join(' ')
-    const ChannelToSendSugest = discordClient.channels.cache.get('960633424593432596')
-    let Author_Tag = message.author.tag;
-    let MessageAuthor = message.author;
-    let MessageAuthorID = message.author.id;
-    let Author_Avatar = message.author.avatarURL({ dynamic: true, format: "png", size: 1024 });
+        let canal = "960633424593432596";
+        if (canal === false || canal === null) {
+            interaction.reply({ content: `Não foi possível enviar sua sugestão, pois o canal de texto de sugestões não está configurado.` })
+        } else {
+            let sugestao = interaction.options.getString("sugestão");
+            let channel = interaction.guild.channels.cache.get(canal);
+            let embed = new Discord.MessageEmbed()
+                .setColor("RANDOM")
+                .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                .setTimestamp(new Date())
+                .setTitle(`Nova sugestão!`)
+                .addFields(
+                    {
+                        name: `\\👤 Autor:`,
+                        value: `${interaction.user}`,
+                        inline: false
+                    },
+                    {
+                        name: `\\💬 Sugestão:`,
+                        value: `${sugestao}`,
+                        inline: false
+                    }
+                );
 
-    if(SentSuggestion === ""){
-        message.channel.send("Escreva sua sugestão apos o comando!")
-    } else {
-
-        let msg_embed = new Discord[`MessageEmbed`]()
-            .setColor("#a609f5")
-            .setAuthor(`Sugestão feita por: ${Author_Tag}`, Author_Avatar)
-            .setDescription(SentSuggestion)
-            .setFooter(`Id do usuario: ${MessageAuthorID}`)
-
-
-        ChannelToSendSugest.send(msg_embed).then(msg => {
-            let EmojiPositivo = "✅";
-            let EmojiNegaivo = "❌";
-            msg.react(EmojiPositivo)
-            msg.react(EmojiNegaivo)
-            message.channel.send(`✅ ${MessageAuthor} Sua sugestão foi enviada com sucesso, Obrigado pela sugestão! :)`)
-        })
+            channel.send({ embeds: [embed] }).then( () => {
+                interaction.reply(`Sua sugestão foi enviada para ${channel} com sucesso.`)
+            }).catch(e => {
+                interaction.reply(`\\❌ Algo deu errado.`)
+            })
+        }
 
     }
-
 }

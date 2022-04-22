@@ -1,7 +1,8 @@
 const Twit = require('twit');
 const Discord = require('discord.js');
 const TWITTER_DiscordChannelID = process.env.TWITTER_DiscordChannelID
-const TWITTER_USER_WATCH_ID = process.env.TWITTER_USER_WATCH_ID
+const TWITTER_USER_WATCH_ID1 = "1506715692996907017"
+const TWITTER_USER_WATCH_ID2 = "1429531043560927253"
 
 const TwitterNotification = {
 
@@ -18,17 +19,16 @@ const TwitterNotification = {
 
 
         //follow = id do usuario do twitter
-        let stream = TwitterLogin.stream('statuses/filter', { follow: TWITTER_USER_WATCH_ID })
+
+        var stream = TwitterLogin.stream('statuses/filter', { follow: [TWITTER_USER_WATCH_ID1] })
 
         stream.on('tweet', function (tweet) {
-            //id do usuario do twitter
-            if(tweet.user.id == TWITTER_USER_WATCH_ID) {
-                let url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
+            //only show owner tweets
+            if(tweet.user.id == TWITTER_USER_WATCH_ID1) {
+                var url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
                 try {
-                    let sendMessage = "@everyone "+ url;
-                    let channel = discordClient.channels.fetch(TWITTER_DiscordChannelID).then(channel => {
-                        channel.send(sendMessage)
-                        console.log(sendMessage)
+                    let channel = discordClient.channels.fetch("965715559914291320").then(channel => {
+                        channel.send(url)
                     }).catch(err => {
                         console.log(err)
                     })
@@ -37,6 +37,26 @@ const TwitterNotification = {
                 }
             }
         })
+
+        var stream = TwitterLogin.stream('statuses/filter', { follow: [TWITTER_USER_WATCH_ID2] })
+
+        stream.on('tweet', function (tweet) {
+            //only show owner tweets
+            if(tweet.user.id == TWITTER_USER_WATCH_ID2) {
+                var url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
+                try {
+                    let channel = discordClient.channels.fetch("965715559914291320").then(channel => {
+                        channel.send(url)
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        })
+
+
 
 
     }

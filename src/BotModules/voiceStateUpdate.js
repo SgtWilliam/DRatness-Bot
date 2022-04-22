@@ -23,7 +23,7 @@ const VoiceStateUpdate = {
                     .setColor("RANDOM")
                 //canal_logs2.send(embed)
 
-
+                
                 if (db.get(`contando_${newMember.id}`) === false) {
                     db.set(`contando_${newMember.id}`, true)
                     db.set(`call_${newMember.id}`, new Date().getTime())

@@ -9,7 +9,7 @@ module.exports.run = async (discordClient, message, args) => {
             const resp = await db.all().filter(data => data.ID.startsWith('tempocall_')).sort((a, b) => b.data - a.data);
 
             var pagina = pagina || 1,
-                per_pagina = per_pagina || 5,
+                per_pagina = per_pagina || 10,
                 offset = (pagina - 1) * per_pagina,
 
                 paginatedItems = resp.slice(offset).slice(0, per_pagina),
@@ -53,15 +53,15 @@ module.exports.run = async (discordClient, message, args) => {
                 message: rankMensagem
             };
 
-            if (rankMensagem == undefined || rankMensagem == "") rankMensagem = '**Nenhum usuário está no top 5!**';
+            if (rankMensagem == undefined || rankMensagem == "") rankMensagem = '**Nenhum usuário está no top 10!**';
 
             const topembed = new Discord.MessageEmbed()
                 .setColor("#7802ff")
                 .setAuthor(message.guild.name + " | Rank Call", message.guild.iconURL({ dynamic: true }) )
-                .addField('Top 5 | Tempo em Call', rankMensagem)
+                .addField('Top 10 | Tempo em Call', rankMensagem)
                 .setFooter( message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
             return message.reply(topembed)
         }
-        rankTempocall(1, 5)
+        rankTempocall(1, 10)
 };

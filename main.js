@@ -1,17 +1,26 @@
-const Discord = require('discord.js');
-const discordClient = new Discord.Client();
+const TwitterNotification = require("./src/BotModules/TwitterNotification");
+const AddReactions = require("./src/BotModules/AddReactions");
+const ServerLogs = require("./src/BotModules/voiceStateUpdate");
+const EditedMessageLog = require("./src/BotModules/EditedMessageLog");
+const DeletedMessageLog = require("./src/BotModules/DeletedMessageLog");
+const SaidaLog = require("./src/BotModules/SaidaLog");
 
+const Discord = require('discord.js');
 const express = require('express');
 const {response} = require("express");
-const TwitterNotification = require("./src/BotModules/TwitterNotification");
-const AddReactions = require("./src/BotModules/AddReactions")
-const ServerLogs = require("./src/BotModules/voiceStateUpdate")
+const YoutubePoster = require("discord-yt-poster");
+const { Client, Intents, MessageEmbed } = require('discord.js');
+
+
+
+//const discordClient = new Discord.Client();
 const app = express();
 const port = process.env.PORT || 5000;
-
+const AUTH_TOKEN = process.env.SHAMSHER_TOKEN;
 const Prefix = "-"
 
-const AUTH_TOKEN = process.env.SHAMSHER_TOKEN;
+const discordClient = new Discord.Client({intents: 32767})
+module.exports = discordClient;
 
 
 
@@ -22,6 +31,7 @@ async function main() {
 
     discordClient.on('ready', async () => {
         console.info(`Logged in as ${discordClient.user.tag}!`);
+
 
         TwitterNotification
             .init(discordClient)
@@ -38,6 +48,24 @@ async function main() {
             .init(discordClient)
             .then()
             .catch()
+
+
+        EditedMessageLog
+            .init(discordClient, Discord)
+            .then()
+            .catch()
+
+        DeletedMessageLog
+            .init(discordClient, Discord)
+            .then()
+            .catch()
+
+        SaidaLog
+            .init(discordClient, Discord)
+            .then()
+            .catch()
+
+
 
     });
 }
@@ -90,9 +118,49 @@ discordClient.on("ready", () => {
     }), 1000 * 30);
     discordClient.user
         .setStatus("online")
-        .catch(console.error);
     console.log("Estou pronto(a) para ser utilizado(a)!")
 });
 //starts
 
+//slash commands
+discordClient.commands = new Discord.Collection();
+discordClient.slashCommands = new Discord.Collection();
+require("./src/handler")(discordClient);
+const { glob } = require("glob");
+const { promisify } = require("util");
 
+const globPromise = promisify(glob);
+
+discordClient.on("interactionCreate", async (interaction) => {
+
+    if (!interaction.guild) return;
+
+    if (interaction.isCommand()) {
+
+        const cmd = discordClient.slashCommands.get(interaction.commandName);
+
+        if (!cmd)
+            return;
+
+        const args = [];
+
+        for (let option of interaction.options.data) {
+
+            if (option.type === "SUB_COMMAND") {
+                if (option.name) args.push(option.name);
+                option.options?.forEach((x) => {
+                    if (x.value) args.push(x.value);
+                });
+            } else if (option.value) args.push(option.value);
+        }
+
+        cmd.run(discordClient, interaction, args);
+    }
+
+    if (interaction.isContextMenu()) {
+        await interaction.deferReply({ ephemeral: false });
+        const command = discordClient.slashCommands.get(interaction.commandName);
+        if (command) command.run(discordClient, interaction);
+
+    }
+});

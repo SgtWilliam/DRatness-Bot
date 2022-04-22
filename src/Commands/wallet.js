@@ -31,7 +31,7 @@ module.exports.run = async (discordClient, message, args) => {
                     }
                 );
 
-        await message.channel.send(GetAuthorMessageSend, CreatEmbedMessage);
+        await message.channel.send({embeds: [CreatEmbedMessage], GetAuthorMessageSend});
 
     };
 
