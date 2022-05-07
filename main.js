@@ -19,6 +19,8 @@ const port = process.env.PORT || 5000;
 const AUTH_TOKEN = process.env.SHAMSHER_TOKEN;
 const Prefix = "-"
 
+
+
 const discordClient = new Discord.Client({intents: 32767})
 module.exports = discordClient;
 
@@ -123,44 +125,4 @@ discordClient.on("ready", () => {
 //starts
 
 //slash commands
-discordClient.commands = new Discord.Collection();
-discordClient.slashCommands = new Discord.Collection();
 require("./src/handler")(discordClient);
-const { glob } = require("glob");
-const { promisify } = require("util");
-
-const globPromise = promisify(glob);
-
-discordClient.on("interactionCreate", async (interaction) => {
-
-    if (!interaction.guild) return;
-
-    if (interaction.isCommand()) {
-
-        const cmd = discordClient.slashCommands.get(interaction.commandName);
-
-        if (!cmd)
-            return;
-
-        const args = [];
-
-        for (let option of interaction.options.data) {
-
-            if (option.type === "SUB_COMMAND") {
-                if (option.name) args.push(option.name);
-                option.options?.forEach((x) => {
-                    if (x.value) args.push(x.value);
-                });
-            } else if (option.value) args.push(option.value);
-        }
-
-        cmd.run(discordClient, interaction, args);
-    }
-
-    if (interaction.isContextMenu()) {
-        await interaction.deferReply({ ephemeral: false });
-        const command = discordClient.slashCommands.get(interaction.commandName);
-        if (command) command.run(discordClient, interaction);
-
-    }
-});

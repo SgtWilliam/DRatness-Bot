@@ -1,8 +1,7 @@
 const Twit = require('twit');
 const Discord = require('discord.js');
 const TWITTER_DiscordChannelID = process.env.TWITTER_DiscordChannelID
-const TWITTER_USER_WATCH_ID1 = "1506715692996907017"
-const TWITTER_USER_WATCH_ID2 = "1429531043560927253"
+const TWITTER_USER_WATCH_ID = process.env.TWITTER_USER_WATCH_ID
 
 const TwitterNotification = {
 
@@ -20,14 +19,14 @@ const TwitterNotification = {
 
         //follow = id do usuario do twitter
 
-        var stream = TwitterLogin.stream('statuses/filter', { follow: [TWITTER_USER_WATCH_ID1] })
+        var stream = TwitterLogin.stream('statuses/filter', { follow: [TWITTER_USER_WATCH_ID] })
 
         stream.on('tweet', function (tweet) {
             //only show owner tweets
-            if(tweet.user.id == TWITTER_USER_WATCH_ID1) {
+            if(tweet.user.id == TWITTER_USER_WATCH_ID) {
                 var url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
                 try {
-                    let channel = discordClient.channels.fetch("965715559914291320").then(channel => {
+                    let channel = discordClient.channels.fetch(TWITTER_DiscordChannelID).then(channel => {
                         channel.send(url)
                     }).catch(err => {
                         console.log(err)
@@ -37,31 +36,7 @@ const TwitterNotification = {
                 }
             }
         })
-
-        var stream = TwitterLogin.stream('statuses/filter', { follow: [TWITTER_USER_WATCH_ID2] })
-
-        stream.on('tweet', function (tweet) {
-            //only show owner tweets
-            if(tweet.user.id == TWITTER_USER_WATCH_ID2) {
-                var url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
-                try {
-                    let channel = discordClient.channels.fetch("965715559914291320").then(channel => {
-                        channel.send(url)
-                    }).catch(err => {
-                        console.log(err)
-                    })
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        })
-
-
-
-
     }
-
-
 };
 
 
